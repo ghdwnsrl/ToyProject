@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import study.login.domain.Member;
+import study.login.dto.ArticleDto;
 import study.login.dto.MemberDto;
+import study.login.service.ArticleDtoService;
 import study.login.service.MemberService;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -20,6 +24,7 @@ import study.login.service.MemberService;
 public class MemberController {
 
     private final MemberService memberService;
+
 
     @GetMapping("/join")
     public String join(Model model, MemberDto memberDto) {
@@ -43,24 +48,5 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute("memberDto") MemberDto memberDto) {
 
-        String userId = memberDto.getUserId();
-        String password = memberDto.getPassword();
-
-        boolean loginResult = memberService.login(userId, password);
-
-        log.info("loginResult = " + loginResult);
-
-        /**
-         * 로그인 성공 -> 다음 화면
-         * 로그인 실패 -> 로그인 화면 Redirect.
-         */
-
-        if (loginResult)
-            return "다음 화면";
-        else
-            return "redirect:/";
-    }
 }

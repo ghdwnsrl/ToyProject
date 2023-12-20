@@ -17,19 +17,8 @@ public class MemberService {
         return savedMember.getId();
     }
 
-
-    public boolean login(String userId, String password) {
-        Member findedUser = memberRepository.findByUserId(userId);
-
-        if (findedUser == null) {
-            return false;
-        }
-
-        if (findedUser.getUserId().equals(userId) &&
-                findedUser.getPassword().equals(password)) {
-            return true;
-        } else {
-            return false;
-        }
+    public Member findMember(String userId) {
+        return memberRepository.findByUserId(userId);
     }
+
 }
