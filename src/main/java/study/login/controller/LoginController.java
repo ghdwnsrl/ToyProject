@@ -27,16 +27,12 @@ public class LoginController {
     private final ArticleDtoService articleDtoService;
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("memberDto") MemberDto memberDto , HttpServletRequest request , Model model , @RequestParam(defaultValue = "/") String redirectURL) {
+    public String login(@ModelAttribute("memberDto") MemberDto memberDto , HttpServletRequest request , Model model /*, @RequestParam(defaultValue = "/") String redirectURL*/) {
 
 
         MemberDto loginUser = loginService.login(memberDto.getUserId(), memberDto.getPassword());
 
         log.info("loginUser.getUserId()={}",loginUser.getUserId());
-
-        /**
-         * TODO 아이디 중복 체크로 회원 가입 처리 해야함
-         */
 
         if (loginUser != null){
             List<ArticleDto> articleDtos = articleDtoService.findArticleDtos();
@@ -44,10 +40,7 @@ public class LoginController {
 
             HttpSession session = request.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER , loginUser);
-            /**
-             * TODO article을 모두 조회하고 model에 넘겨줘야함
-             */
-            return "redirect:/list";
+
         } else {
             return "redirect:/";
         }

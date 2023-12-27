@@ -14,9 +14,10 @@
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
                         <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+                        <h3 th:if="${param.status}" th:text="'이미 가입된 회원입니다...'"> </h3>
                         <form method="POST" th:action = "@{/member/join}" th:object = "${memberDto}" class="needs-validation" novalidate="" autocomplete="off">
                             <div class="mb-3">
-                                <label class="mb-2 text-muted" for="userId">New E-Mail </label>
+                                <label class="mb-2 text-muted" for="userId">New ID </label>
                                 <input id="userId" th:field="*{userId}" class="form-control" name="userId" value="" required autofocus>
                                 <div class="invalid-feedback">
                                     Email is invalid
