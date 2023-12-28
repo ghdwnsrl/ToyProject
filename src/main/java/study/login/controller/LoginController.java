@@ -27,12 +27,9 @@ public class LoginController {
     private final ArticleDtoService articleDtoService;
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("memberDto") MemberDto memberDto , HttpServletRequest request , Model model /*, @RequestParam(defaultValue = "/") String redirectURL*/) {
-
+    public String login(@ModelAttribute("memberDto") MemberDto memberDto , HttpServletRequest request , Model model, @RequestParam(name = "redirectURL") String redirectURL) {
 
         MemberDto loginUser = loginService.login(memberDto.getUserId(), memberDto.getPassword());
-
-        log.info("loginUser.getUserId()={}",loginUser.getUserId());
 
         if (loginUser != null){
             List<ArticleDto> articleDtos = articleDtoService.findArticleDtos();
@@ -41,8 +38,9 @@ public class LoginController {
             HttpSession session = request.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER , loginUser);
 
+            return "redirect:" + redirectURL;
         } else {
-            return "redirect:/";
+            return "/main";
         }
     }
 }
