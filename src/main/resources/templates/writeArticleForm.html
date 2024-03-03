@@ -11,7 +11,7 @@
     <div class="row justify-content-sm-center h-100">
         <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
             <div class="text-center my-5"> </div>
-            <div class="card shadow-lg">
+            <div class="card">
                 <div class="card-body p-5">
                     <h1 class="fs-4 card-title fw-bold mb-4"></h1>
                     <form method="POST" th:action="@{/write}" th:object = "${articleWriteForm}" class="needs-validation" novalidate="" autocomplete="off">
@@ -22,17 +22,14 @@
                                 제목을 입력하세요.
                             </div>
                             <div class="mb-3 d-flex justify-content-between">
-                            <label class="mb-2 text-muted" th:style="'text-align: right; display: inline-block;'">
-                                <span>작성자: </span>
-                                <span th:text="${loginMember.nickname}" th:style="'display: inline-block;'"></span>
-                            </label>
                             </div>
                         </div>
-
+                        <label class="mb-2 text-muted" th:style="'text-align: right; display: inline-block;'">
+                            <span>작성자: </span>
+                            <span th:text="${loginMember.nickname}" th:style="'display: inline-block;'"></span>
+                        </label>
                         <div class="mb-3">
-                            <div class="mb-2 w-100">
                                 <label class="mb-2 text-muted">내용</label>
-                            </div>
                             <textarea id="content" th:field="*{contents}" class="form-control" name="contents" required></textarea>
                             <div class="invalid-feedback">
                                 내용을 입력하시오.

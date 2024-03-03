@@ -56,7 +56,7 @@ public class MemberController {
             return "redirect:/member/join";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 

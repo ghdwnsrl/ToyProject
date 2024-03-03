@@ -3,10 +3,12 @@ package study.login;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import study.login.session.SessionConst;
 
+@Slf4j
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
@@ -15,6 +17,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
 
         if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
+            log.info("sessiong = {} , session.getAttribute(SessionConst.LOGIN_MEMBER) = {}",session.toString(), session.getAttribute(SessionConst.LOGIN_MEMBER));
             response.sendRedirect("/?redirectURL=" + requestURI);
             return false;
         }

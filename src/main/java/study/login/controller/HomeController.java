@@ -12,13 +12,8 @@ import study.login.dto.MemberDto;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(Model model, @RequestParam(name = "redirectURL", defaultValue = "/list") String redirectURL) {
-
-
-        model.addAttribute("redirectURL" , redirectURL);
-        model.addAttribute("memberDto" , new MemberDto());
-
-        return "/main";
+    public String home() {
+        return "/board";
     }
 
 }
