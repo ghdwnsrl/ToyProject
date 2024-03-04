@@ -18,7 +18,7 @@ public class BoardController {
 
     private final ArticleDtoService articleDtoService;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public String show(Model model) {
 
         List<ArticleDto> articleList = articleDtoService.findArticleDtos();

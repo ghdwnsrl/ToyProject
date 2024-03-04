@@ -28,5 +28,7 @@ public class MemberService {
     }
 
 
-
+    public void saveUser(Member member) {
+        memberRepository.save(member);
+    }
 }

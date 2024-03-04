@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>글</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+<div class="container mt-5" style="max-width: 600px">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center mb-4" th:text="${articleDetailDto.title}"></h5>
+            <p class="card-text"><strong>작성자: </strong><span th:text="${articleDetailDto.writer}"></span></p>
+            <p class="card-text"><strong>내용: </strong><span th:text="${articleDetailDto.contents}"></span></p>
+            <p class="card-text"><strong>조회수: </strong><span th:text="${articleDetailDto.views}"></span></p>
+        </div>
+        <form th:action="@{/article/delete/{id}(id=${articleDetailDto.id})}" th:method="post" th:object="${articleDetailDto}" onsubmit="return confirm('삭제하시겠습니까?');">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit" class="btn btn-danger btn-sm float-end">삭제</button>
+        </form>
+        <form th:action="@{/article/edit/{id}(id=${articleDetailDto.id})}" th:method="post" th:object="${articleDetailDto}" onsubmit="return confirm('삭제하시겠습니까?');">
+            <input type="hidden" name="_method" value="put"/>
+            <button type="submit" class="btn btn-primary btn-sm float-end">수정</button>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

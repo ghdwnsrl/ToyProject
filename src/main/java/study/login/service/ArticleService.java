@@ -10,6 +10,8 @@ import study.login.dto.MemberDto;
 import study.login.repository.ArticleRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service @Transactional
 @RequiredArgsConstructor
@@ -34,6 +36,22 @@ public class ArticleService {
                         member
                 )
         );
+    }
+
+    public void write(Article article){
+        articleRepository.save(article);
+    }
+
+    public Optional<Article> findByArticleId(Long articleId) {
+        return articleRepository.findById(articleId);
+    }
+
+    public void deleteArticle(Long articleId) {
+
+        Article article = findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
+
+        articleRepository.delete(article);
+
     }
 
     // TODO : 저장, 수정, 삭제 기능 구현 남음

@@ -1,6 +1,7 @@
 package study.login.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class Article {
 
     private int views;
 
+    @Builder
     public Article(String title, String contents, Member member) {
         this.title = title;
         this.contents = contents;
