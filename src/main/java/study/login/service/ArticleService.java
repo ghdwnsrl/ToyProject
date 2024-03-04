@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.login.domain.Article;
 import study.login.domain.Member;
+import study.login.dto.ArticleDetailDto;
 import study.login.dto.ArticleWriteForm;
 import study.login.dto.MemberDto;
 import study.login.repository.ArticleRepository;
@@ -23,11 +24,7 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
-    /**
-     * 글 저장
-     */
     public void write(ArticleWriteForm articleWriteForm , Member member) {
-
 
         articleRepository.save(
                 new Article(
@@ -54,5 +51,10 @@ public class ArticleService {
 
     }
 
-    // TODO : 저장, 수정, 삭제 기능 구현 남음
+    public void update(ArticleDetailDto articleDetailDto) {
+
+        Article article = articleRepository.findById(articleDetailDto.getId()).orElseThrow(NoSuchElementException::new);
+
+        article.articleUpdate(articleDetailDto.getTitle(),articleDetailDto.getContents());
+    }
 }

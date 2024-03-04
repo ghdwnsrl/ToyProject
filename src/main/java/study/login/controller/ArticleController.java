@@ -77,4 +77,30 @@ public class ArticleController {
 
         return "redirect:/";
     }
+    @PutMapping("/article/edit/{articleId}")
+    public String edit(@PathVariable(name = "articleId") Long articleId, ArticleDetailDto articleDetailDto ) {
+
+        log.info(articleDetailDto.toString());
+
+        articleService.update(articleDetailDto);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/article/edit/{articleId}")
+    public String editForm(@PathVariable(name = "articleId") Long articleId, Model model) {
+        Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
+
+        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .contents(article.getContents())
+                .writer(article.getMember().getNickname())
+                .views(article.getViews())
+                .build();
+
+        model.addAttribute("articleDetailDto", articleDetailDto);
+
+        return "updateArticleForm";
+    }
 }

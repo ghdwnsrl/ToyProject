@@ -19,7 +19,7 @@ public class Article {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private int views;
+    private Integer views;
 
     @Builder
     public Article(String title, String contents, Member member) {
@@ -27,5 +27,10 @@ public class Article {
         this.contents = contents;
         this.member = member;
         this.views = 0;
+    }
+
+    public void articleUpdate(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
     }
 }
