@@ -19,13 +19,13 @@
                 <button class="btn btn-primary btn-sm"
                         th:onclick="|location.href='@{/}'|" type="button">뒤로</button>
             </div>
-            <div class="p-2">
+            <div class="p-2" th:if="${isOwner}">
                 <form th:action="@{/article/delete/{id}(id=${articleDetailDto.id})}" th:method="post" th:object="${articleDetailDto}" onsubmit="return confirm('삭제하시겠습니까?');">
                     <input type="hidden" name="_method" value="delete"/>
                     <button type="submit" class="btn btn-danger btn-sm float-end">삭제</button>
                 </form>
             </div>
-            <div class="p-2">
+            <div class="p-2" th:if="${isOwner}">
                 <button class="btn btn-primary btn-sm"
                         th:onclick="|location.href='@{/article/edit/{id}(id=${articleDetailDto.id})}'|" type="button">수정</button>
             </div>

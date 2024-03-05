@@ -37,10 +37,10 @@
                     </thead>
                     <tbody>
                         <tr th:each="articleDto : ${articleDtos}">
-                            <td th:text="${articleDto.id}" style="text-align: center;" th:onclick="|location.href='@{/article/}| + ${articleDto.id} + |'|"></td>
-                            <td th:text="${articleDto.title}" style="text-align: center;" th:onclick="|location.href='@{/article/}| + ${articleDto.id} + |'|"></td>
-                            <td th:text="${articleDto.writer}" style="text-align: center;" th:onclick="|location.href='@{/article/}| + ${articleDto.id} + |'|"></td>
-                            <td th:text="${articleDto.views}" style="text-align: center;" th:onclick="|location.href='@{/article/}| + ${articleDto.id} + |'|"></td>
+                            <td th:text="${articleDto.id}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
+                            <td th:text="${articleDto.title}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
+                            <td th:text="${articleDto.writer}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
+                            <td th:text="${articleDto.views}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
                         </tr>
                     </tbody>
                 </table>

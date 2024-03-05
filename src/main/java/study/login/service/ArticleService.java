@@ -1,6 +1,7 @@
 package study.login.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.login.domain.Article;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service @Transactional
+@Service @Transactional @Slf4j
 @RequiredArgsConstructor
 public class ArticleService {
 
@@ -56,5 +57,14 @@ public class ArticleService {
         Article article = articleRepository.findById(articleDetailDto.getId()).orElseThrow(NoSuchElementException::new);
 
         article.articleUpdate(articleDetailDto.getTitle(),articleDetailDto.getContents());
+    }
+
+    public boolean isOwner(Article article, MemberDto memberDto) {
+        if (memberDto == null)
+            return false;
+
+        log.info("article.getMember().getId() = {}", article.getMember().getId().toString());
+        log.info("memberDto.getId() = {}" , memberDto.getId());
+        return (article.getMember().getId() == memberDto.getId());
     }
 }

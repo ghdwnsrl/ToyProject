@@ -11,6 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class MemberDto {
 
+    private Long id;
 
     @NotBlank(message = "아이디를 입력해주세요.")
     private String userId;
@@ -22,7 +23,8 @@ public class MemberDto {
     private String nickname;
 
 
-    public MemberDto(String userId, String password, String nickname) {
+    public MemberDto(Long id, String userId, String password, String nickname) {
+        this.id = id;
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;

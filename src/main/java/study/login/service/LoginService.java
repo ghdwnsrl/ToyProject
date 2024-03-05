@@ -25,7 +25,7 @@ public class LoginService {
         }
 
         if (byUserId.getPassword().equals(password))
-            return new MemberDto(byUserId.getUserId() , byUserId.getPassword(), byUserId.getNickname());
+            return new MemberDto(byUserId.getId(), byUserId.getUserId(), byUserId.getPassword(), byUserId.getNickname());
 
         return null;
     }

@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/", "/member/join" , "/login" ,
+                .excludePathPatterns("/", "/member/join" , "/login" , "/article/read/**",
                         "/css/**" , "/*.ico" , "/error");
     }
 }
