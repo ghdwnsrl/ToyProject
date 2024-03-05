@@ -9,8 +9,6 @@ import study.login.domain.Member;
 import study.login.service.ArticleService;
 import study.login.service.MemberService;
 
-import java.math.BigDecimal;
-
 @Component
 @RequiredArgsConstructor
 public class InitDB {
@@ -41,14 +39,27 @@ public class InitDB {
             memberService.saveUser(member);
 
             Article article = Article.builder()
-                    .title("안녕하세용")
+                    .title("안녕하세요")
                     .contents("저는 홍준기입니다")
                     .member(member)
                     .build();
 
             articleService.write(article);
 
+            createDummyArticle(member);
+        }
 
+        private void createDummyArticle(Member member) {
+
+            for (int i = 0; i < 100; i++) {
+                Article article = Article.builder()
+                        .title("안녕하세요"+String.valueOf(i))
+                        .contents("저는 홍준기입니다")
+                        .member(member)
+                        .build();
+
+                articleService.write(article);
+            }
         }
 
     }

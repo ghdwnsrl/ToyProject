@@ -44,6 +44,30 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <nav style="text-align: center;">
+                    <ul class="pagination justify-content-center" th:with="start=${(articleDtos.number/maxPage)*maxPage + 1}, end=(${(articleDtos.totalPages == 0) ? 1 : (start + (maxPage - 1) < articleDtos.totalPages ? start + (maxPage - 1) : articleDtos.totalPages)})">
+                        <li class="page-item" th:if="${start > 1}">
+                            <a class="page-link" th:href="@{/(page=0)}" th:text="'<<'"></a>
+                        </li>
+                        <li class="page-item" th:if="${start > 1}">
+                            <a class="page-link" th:href="@{/(page=${start - maxPage -1})}" th:text="'<'"></a>
+                        </li>
+
+                        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+                            th:classappend="${page == articleDtos.number+1} ? 'active'"
+                        >
+                            <a class="page-link" th:text="${page}" th:href="@{/(page=${page - 1})}"></a>
+                        </li>
+
+                        <li class="page-item" th:if="${end < articleDtos.totalPages}">
+                            <a class="page-link" th:href="@{/(page=${start + maxPage - 1})}" th:text="'>'"></a>
+                        </li>
+                        <li class="page-item" th:if="${end < articleDtos.totalPages}">
+                            <a class="page-link" th:href="@{/(page=${articleDtos.totalPages - 1})}" th:text="'>>'"></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

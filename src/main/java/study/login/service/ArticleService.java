@@ -2,15 +2,21 @@ package study.login.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.login.domain.Article;
 import study.login.domain.Member;
 import study.login.dto.ArticleDetailDto;
+import study.login.dto.ArticleDto;
 import study.login.dto.ArticleWriteForm;
 import study.login.dto.MemberDto;
 import study.login.repository.ArticleRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,8 +27,18 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public List<Article> findLists() {
-        return articleRepository.findAll();
+    public Page<ArticleDto> findLists(int page) {
+
+        ArrayList<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("id"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        return articleRepository.findAll(pageable).map(m -> new ArticleDto(
+                m.getId(),
+                m.getTitle(),
+                m.getMember().getNickname(),
+                m.getViews()
+        ));
     }
 
     public void write(ArticleWriteForm articleWriteForm , Member member) {
@@ -60,11 +76,10 @@ public class ArticleService {
     }
 
     public boolean isOwner(Article article, MemberDto memberDto) {
+
         if (memberDto == null)
             return false;
 
-        log.info("article.getMember().getId() = {}", article.getMember().getId().toString());
-        log.info("memberDto.getId() = {}" , memberDto.getId());
         return (article.getMember().getId() == memberDto.getId());
     }
 }

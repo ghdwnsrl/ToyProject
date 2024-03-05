@@ -11,12 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import study.login.domain.Member;
-import study.login.dto.ArticleDto;
 import study.login.dto.MemberDto;
-import study.login.service.ArticleDtoService;
 import study.login.service.MemberService;
-
-import java.util.List;
 
 @Controller
 @Slf4j
