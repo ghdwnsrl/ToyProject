@@ -52,7 +52,9 @@ public class ArticleController {
     public String readArticle(@PathVariable(name = "articleId") Long articleId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto,  Model model) {
 
         Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
+        article.increaseArticle();
         boolean isOwner = articleService.isOwner(article,memberDto);
+
         log.info("글 주인 == 로그인한 사용자 : {}",isOwner);
         ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
                 .title(article.getTitle())

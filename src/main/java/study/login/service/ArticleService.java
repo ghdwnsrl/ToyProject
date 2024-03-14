@@ -21,12 +21,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service @Transactional @Slf4j
+@Service @Slf4j
 @RequiredArgsConstructor
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
+    @Transactional(readOnly = true)
     public Page<ArticleDto> findLists(int page) {
 
         ArrayList<Sort.Order> sorts = new ArrayList<>();
@@ -41,6 +42,7 @@ public class ArticleService {
         ));
     }
 
+    @Transactional
     public void write(ArticleWriteForm articleWriteForm , Member member) {
 
         articleRepository.save(
@@ -52,14 +54,17 @@ public class ArticleService {
         );
     }
 
+    @Transactional
     public void write(Article article){
         articleRepository.save(article);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Article> findByArticleId(Long articleId) {
         return articleRepository.findById(articleId);
     }
 
+    @Transactional
     public void deleteArticle(Long articleId) {
 
         Article article = findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
@@ -68,6 +73,7 @@ public class ArticleService {
 
     }
 
+    @Transactional
     public void update(ArticleDetailDto articleDetailDto) {
 
         Article article = articleRepository.findById(articleDetailDto.getId()).orElseThrow(NoSuchElementException::new);
