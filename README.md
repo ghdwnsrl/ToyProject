@@ -1,17 +1,24 @@
 # 프로젝트 소개
 
-Spring과 JPA를 학습한 후, 공부하며 배운 내용을 적용해보고자 시작
+간단한 게시판 구현 
 
-## 🚀 기술 스택
+## 기술 스택
 
-- **Spring**
+- **Spring Framework**
 - **JPA**
 - **MySQL**
 
-## 🛠️ 구현된 기능</span>
+## 구현된 기능</span>
 
-- 로그인
-- 글쓰기
-- Session을 통한 로그인 유지
-- 미 로그인 시, 로그인 페이지로 Interceptor
+- 로그인(Session 활용)
+- 게시글 CRUD 
+- 게시글 Paging
+
+## 프로젝트 구조
+<img width="254" alt="스크린샷 2024-03-05 오후 10 46 32" src="https://github.com/ghdwnsrl/ToyProject/assets/81946918/253ab4a0-995f-4a26-b929-027fb645d331">
+
+## 시연 영상 
+
+
+https://github.com/ghdwnsrl/ToyProject/assets/81946918/c20dbf48-47ba-4857-9eb7-ef31458136ec
 
