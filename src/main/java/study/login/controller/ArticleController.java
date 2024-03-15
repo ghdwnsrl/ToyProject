@@ -31,6 +31,7 @@ public class ArticleController {
         model.addAttribute("articleWriteForm" , new ArticleWriteForm());
         model.addAttribute("loginMember", memberDto);
 
+
         return "writeArticleForm";
     }
 
@@ -40,7 +41,6 @@ public class ArticleController {
         System.out.println("articleWriteForm.getTitle() = " + articleWriteForm.getTitle());
         System.out.println("articleWriteForm.getContents() = " + articleWriteForm.getContents());
 
-
         Member findedMember = memberService.findMember(memberDto.getUserId());
         log.info("member.getId() = {}" , findedMember.getUserId() );
         articleService.write(articleWriteForm , findedMember);
@@ -49,10 +49,13 @@ public class ArticleController {
     }
 
     @GetMapping("/article/read/{articleId}")
-    public String readArticle(@PathVariable(name = "articleId") Long articleId, @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto,  Model model) {
+    public String readArticle(@PathVariable(name = "articleId") Long articleId,
+                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto,
+                              Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
         article.increaseArticle();
+
         boolean isOwner = articleService.isOwner(article,memberDto);
 
         log.info("글 주인 == 로그인한 사용자 : {}",isOwner);
@@ -65,8 +68,11 @@ public class ArticleController {
                 .id(article.getId())
                 .build();
 
+        log.info("page = {}", page);
+
         model.addAttribute("articleDetailDto", articleDetailDto);
         model.addAttribute("isOwner", isOwner);
+        model.addAttribute("page", page);
 
         return "readArticleForm";
     }

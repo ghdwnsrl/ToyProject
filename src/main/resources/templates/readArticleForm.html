@@ -17,7 +17,7 @@
         <div class="d-flex justify-content-end">
             <div class=" p-2">
                 <button class="btn btn-primary btn-sm"
-                        th:onclick="|location.href='@{/}'|" type="button">뒤로</button>
+                        th:onclick="|location.href='@{/?page={page}(page=${page})}'|" type="button">뒤로</button>
             </div>
             <div class="p-2" th:if="${isOwner}">
                 <form th:action="@{/article/delete/{id}(id=${articleDetailDto.id})}" th:method="post" th:object="${articleDetailDto}" onsubmit="return confirm('삭제하시겠습니까?');">

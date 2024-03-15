@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
 </head>
 <body class="sb-nav-fixed">
 <div class="container-fluid px-4" style="display: flex; justify-content: flex-end; align-items: center; margin-top: 20px;" th:if="${session.loginMember == null}">
@@ -37,13 +38,18 @@
                     </thead>
                     <tbody>
                         <tr th:each="articleDto : ${articleDtos}">
-                            <td th:text="${articleDto.id}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
-                            <td th:text="${articleDto.title}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
-                            <td th:text="${articleDto.writer}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
-                            <td th:text="${articleDto.views}" style="text-align: center;" th:onclick="|location.href='@{/article/read/}| + ${articleDto.id} + |'|"></td>
+                            <td th:text="${articleDto.id}" style="text-align: center;" th:onclick="|javascript:page('${articleDto.id}','${page}')|"></td>
+                            <td th:text="${articleDto.title}" style="text-align: center;" th:onclick="|javascript:page('${articleDto.id}','${page}')|"></td>
+                            <td th:text="${articleDto.writer}" style="text-align: center;" th:onclick="|javascript:page('${articleDto.id}','${page}')|"></td>
+                            <td th:text="${articleDto.views}" style="text-align: center;" th:onclick="|javascript:page('${articleDto.id}','${page}')|"></td>
                         </tr>
                     </tbody>
                 </table>
+                <script type="text/javascript">
+                    function page(articleId,page) {
+                        location.href="/article/read/"+articleId+"?page="+page;
+                    }
+                </script>
 
                 <nav style="text-align: center;">
                     <ul class="pagination justify-content-center" th:with="start=${(articleDtos.number/maxPage)*maxPage + 1}, end=(${(articleDtos.totalPages == 0) ? 1 : (start + (maxPage - 1) < articleDtos.totalPages ? start + (maxPage - 1) : articleDtos.totalPages)})">

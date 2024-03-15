@@ -26,6 +26,8 @@ public class BoardController {
         model.addAttribute("articleDtos",articleList);
         model.addAttribute("maxPage",5);
 
+        model.addAttribute("page", page);
+
         return "/board";
     }
 }
