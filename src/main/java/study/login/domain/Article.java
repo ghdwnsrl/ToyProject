@@ -34,7 +34,7 @@ public class Article {
         this.contents = contents;
     }
 
-    public Integer increaseArticle(){
+    public Integer increaseArticleViews(){
         this.views ++;
         return this.views;
     }

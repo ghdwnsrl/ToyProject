@@ -54,11 +54,10 @@ public class ArticleController {
                               Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
-        article.increaseArticle();
+        articleService.increaseArticleViews(article);
 
         boolean isOwner = articleService.isOwner(article,memberDto);
 
-        log.info("글 주인 == 로그인한 사용자 : {}",isOwner);
         ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
                 .title(article.getTitle())
                 .views(article.getViews())
