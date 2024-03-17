@@ -21,6 +21,7 @@
 ## Toy Project를 개발하며 겪은 문제 
 [2024.03.15] 게시글 뒤로가기 문제 : https://www.notion.so/Toy-Project-Page-04148d4d444d4177bdc8ca2f8c211e65
 
+[2024.03.17] 게시글 조회수 증가 문제 : https://alluring-timpani-4cb.notion.site/Toy-Project-Transactional-3efe1e0e881a449eaf8b6651c8430ac1
 ## 시연 영상 
 
 
