@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import study.login.global.BaseEntity;
 
 @Entity
 @Getter @NoArgsConstructor
-public class Article {
+public class Article extends BaseEntity {
     @Id @GeneratedValue
     @Column(name = "article_id")
     private Long id;
