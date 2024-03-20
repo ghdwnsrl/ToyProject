@@ -1,13 +1,14 @@
 package study.login.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import study.login.global.BaseEntity;
 
 @Entity
-@Getter @NoArgsConstructor
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article extends BaseEntity {
     @Id @GeneratedValue
     @Column(name = "article_id")

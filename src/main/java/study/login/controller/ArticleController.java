@@ -7,14 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import study.login.domain.Article;
 import study.login.domain.Member;
-import study.login.dto.ArticleDetailDto;
-import study.login.dto.ArticleDto;
-import study.login.dto.ArticleWriteForm;
-import study.login.dto.MemberDto;
+import study.login.dto.*;
 import study.login.service.ArticleService;
+import study.login.service.CommentService;
 import study.login.service.MemberService;
 import study.login.session.SessionConst;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -24,6 +23,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final MemberService memberService;
+    private final CommentService commentService;
 
     @GetMapping("/write")
     public String write(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto, Model model) {
@@ -67,11 +67,15 @@ public class ArticleController {
                 .id(article.getId())
                 .build();
 
-        log.info("page = {}", page);
+        List<CommentListDto> commentListDtos = commentService.requestCommentList(articleId);
+        log.info("commentListDtos ={}", commentListDtos);
+
 
         model.addAttribute("articleDetailDto", articleDetailDto);
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("page", page);
+        model.addAttribute("commentDto", new CommentDto());
+        model.addAttribute("commentListDtos", commentListDtos);
 
         return "readArticleForm";
     }
@@ -81,6 +85,7 @@ public class ArticleController {
 
         log.info(articleId.toString());
 
+        commentService.deleteByArticleId(articleId);
         articleService.deleteArticle(articleId);
 
         return "redirect:/";

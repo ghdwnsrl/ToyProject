@@ -27,6 +27,10 @@ public class MemberService {
         return memberRepository.findByUserId(userId);
     }
 
+    public Optional<Member> findMemberId(Long userId) {
+        return memberRepository.findById(userId);
+    }
+
 
     public void saveUser(Member member) {
         memberRepository.save(member);
