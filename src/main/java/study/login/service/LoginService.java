@@ -7,6 +7,8 @@ import study.login.domain.Member;
 import study.login.dto.MemberDto;
 import study.login.repository.MemberRepository;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -16,17 +18,18 @@ public class LoginService {
 
     public MemberDto login(String userId, String password) {
 
+        Member byUserId = memberRepository
+                .findByUserId(userId)
+                .orElseThrow(NoSuchElementException::new);
 
-        log.info("userId={}, password={}", userId, password);
-        Member byUserId = memberRepository.findByUserId(userId);
-        log.info("findByUserId Result = {}", byUserId);
-        if (byUserId == null) {
-            return null;
+        if (loginCheck(password, byUserId)) {
+            return new MemberDto(byUserId);
+        } else{
+            throw new IllegalArgumentException(" ID / PASSWORD 불일치");
         }
+    }
 
-        if (byUserId.getPassword().equals(password))
-            return new MemberDto(byUserId.getId(), byUserId.getUserId(), byUserId.getPassword(), byUserId.getNickname());
-
-        return null;
+    private static boolean loginCheck(String password, Member byUserId) {
+        return byUserId.getPassword().equals(password);
     }
 }

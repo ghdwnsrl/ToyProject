@@ -12,9 +12,9 @@
 </div>
 <div class="container-fluid px-4" style="display: flex; justify-content: flex-end; align-items: center; margin-top: 20px;" th:if="${session.loginMember != null}">
     <div style="margin-right: 10px;" th:text="|어서오세요! ${session.loginMember.nickname}님!|"></div>
-    <a class="btn btn-danger btn-sm float-end" href="/login">
-        로그아웃
-    </a>
+    <form action="/logout" method="post">
+        <button class="btn btn-danger btn-sm float-end" name="logout" id="logout">로그아웃</button>
+    </form>
 </div>
 <main class="mt-5">
     <div class="container-fluid px-4">

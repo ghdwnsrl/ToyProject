@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import study.login.domain.Member;
 import study.login.repository.MemberRepository;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service @Transactional
@@ -24,7 +25,7 @@ public class MemberService {
     }
 
     public Member findMember(String userId) {
-        return memberRepository.findByUserId(userId);
+        return memberRepository.findByUserId(userId).orElseThrow(NoSuchElementException::new);
     }
 
     public Optional<Member> findMemberId(Long userId) {

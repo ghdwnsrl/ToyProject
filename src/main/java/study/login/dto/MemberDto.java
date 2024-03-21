@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import study.login.domain.Member;
 
 @Data
 @ToString
@@ -23,10 +24,10 @@ public class MemberDto {
     private String nickname;
 
 
-    public MemberDto(Long id, String userId, String password, String nickname) {
-        this.id = id;
-        this.userId = userId;
-        this.password = password;
-        this.nickname = nickname;
+    public MemberDto(Member member) {
+        this.id = member.getId();
+        this.userId = member.getUserId();
+        this.password = member.getPassword();
+        this.nickname = member.getNickname();
     }
 }

@@ -17,6 +17,8 @@ import study.login.service.ArticleService;
 import study.login.service.LoginService;
 import study.login.session.SessionConst;
 
+import java.util.NoSuchElementException;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -34,22 +36,41 @@ public class LoginController {
     public String login(@Valid @ModelAttribute("loginFormDto") LoginFormDto loginFormDto , BindingResult bindingResult, HttpServletRequest request , Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "/login";
+            return "login";
         }
 
-        MemberDto loginUser = loginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
+        MemberDto loginUser = null;
+
+        try {
+            loginUser = loginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
+        } catch (NoSuchElementException e) {
+            model.addAttribute("loginFail", "존재하지 않는 회원입니다.");
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("loginFail", "아이디 / 비밀번호를 확인하세요.");
+        }
+
+
+        // 로그인 실패
+        if(loginUser == null)  {
+            return "login";
+        }
 
         // 로그인 성공
-        if (loginUser != null){
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER , loginUser);
 
-            HttpSession session = request.getSession();
-            session.setAttribute(SessionConst.LOGIN_MEMBER , loginUser);
+        return "redirect:/";
+    }
 
-            return "redirect:/";
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
-        } else { // 로그인 실패
-            return "redirect:/login";
+        if (session != null){
+            session.invalidate();
         }
 
+        return "redirect:/";
     }
+
 }
