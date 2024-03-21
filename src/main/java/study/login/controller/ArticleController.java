@@ -83,10 +83,10 @@ public class ArticleController {
     @DeleteMapping("/article/delete/{articleId}")
     public String deleteArticle(@PathVariable(name = "articleId") Long articleId ) {
 
-        log.info(articleId.toString());
-
+        log.info("deleteArticle 시작");
         commentService.deleteByArticleId(articleId);
         articleService.deleteArticle(articleId);
+        log.info("deleteArticle 끝");
 
         return "redirect:/";
     }

@@ -67,11 +67,7 @@ public class ArticleService {
 
     @Transactional
     public void deleteArticle(Long articleId) {
-
-        Article article = findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
-
-        articleRepository.delete(article);
-
+        articleRepository.deleteById(articleId);
     }
     @Transactional
     public void update(ArticleDetailDto articleDetailDto) {
