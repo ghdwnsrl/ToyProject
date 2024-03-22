@@ -38,9 +38,6 @@ public class ArticleController {
     @PostMapping("/write")
     public String receiveArticle(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberDto memberDto,  @ModelAttribute ArticleWriteForm articleWriteForm) {
 
-        System.out.println("articleWriteForm.getTitle() = " + articleWriteForm.getTitle());
-        System.out.println("articleWriteForm.getContents() = " + articleWriteForm.getContents());
-
         Member findedMember = memberService.findMember(memberDto.getUserId());
         log.info("member.getId() = {}" , findedMember.getUserId() );
         articleService.write(articleWriteForm , findedMember);
@@ -54,7 +51,8 @@ public class ArticleController {
                               Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 
         Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
-        articleService.increaseArticleViews(article);
+
+        checkFromComment(model, article);
 
         boolean isOwner = articleService.isOwner(article,memberDto);
 
@@ -70,7 +68,6 @@ public class ArticleController {
         List<CommentListDto> commentListDtos = commentService.requestCommentList(articleId);
         log.info("commentListDtos ={}", commentListDtos);
 
-
         model.addAttribute("articleDetailDto", articleDetailDto);
         model.addAttribute("isOwner", isOwner);
         model.addAttribute("page", page);
@@ -80,13 +77,22 @@ public class ArticleController {
         return "readArticleForm";
     }
 
+    private void checkFromComment(Model model, Article article) {
+
+        Object obj = model.getAttribute("fromComment");
+        Boolean fromComment = (obj != null) ? (Boolean) obj : null;
+
+        if ( fromComment == null || !fromComment.booleanValue() ){
+            log.info("increase article view 실행 ");
+            articleService.increaseArticleViews(article);
+        }
+    }
+
     @DeleteMapping("/article/delete/{articleId}")
     public String deleteArticle(@PathVariable(name = "articleId") Long articleId ) {
 
-        log.info("deleteArticle 시작");
         commentService.deleteByArticleId(articleId);
         articleService.deleteArticle(articleId);
-        log.info("deleteArticle 끝");
 
         return "redirect:/";
     }
