@@ -27,6 +27,8 @@
 
 [2024.03.20] Delete: 외래키 문제  & 게시글 삭제 시, 댓글 1+ N 문제 : https://alluring-timpani-4cb.notion.site/Toy-Project-ERROR-Cannot-delete-or-update-a-parent-row-a-foreign-key-constraint-fails-login-com-316f3031183c454a9056eb9ab8611001?pvs=4
 
+[2024.03.21] Article Delete 관련 - DeleteById(Long id) VS Delete(T Entity) : https://alluring-timpani-4cb.notion.site/Toy-Project-Delete-VS-DeleteById-e45744e0b4ea44ed9c3adb80bdb9d514?pvs=4
+
 ## 시연 영상 
 
 
