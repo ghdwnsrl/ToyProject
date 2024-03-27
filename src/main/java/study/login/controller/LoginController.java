@@ -7,10 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import study.login.dto.LoginFormDto;
 import study.login.dto.MemberDto;
 import study.login.exception.InvalidLoginException;
@@ -30,11 +32,13 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login(Model model, LoginFormDto loginFormDto) {
+
         return "/login";
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("loginFormDto") LoginFormDto loginFormDto , BindingResult bindingResult, HttpServletRequest request , Model model) {
+    public String login(@Valid @ModelAttribute("loginFormDto") LoginFormDto loginFormDto , BindingResult bindingResult,
+                        HttpServletRequest request , Model model, @RequestParam(name = "redirectURL", defaultValue = "/") String redirectURL) {
 
         if (bindingResult.hasErrors()) {
             return "login";
@@ -59,6 +63,12 @@ public class LoginController {
         // 로그인 성공
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER , loginUser);
+
+        log.info("[Post] login - redirectURL {}", redirectURL);
+        // redirect 요청 처리
+        if (StringUtils.hasText(redirectURL)) {
+            return "redirect:" + redirectURL;
+        }
 
         return "redirect:/";
     }

@@ -37,7 +37,7 @@
                         <p><strong>작성자: </strong><span th:text="${comment.writer}"></span></p>
                         <p><strong>내용: </strong><span th:text="${comment.contents}"></span></p>
                     </div>
-                    <div th:if="${session.loginMember.nickname == comment.writer}">
+                    <div th:if="${session.loginMember?.nickname == comment.writer}">
                         <form th:action="@{/comment/delete/{id}(id=${comment.id})}" th:method="post" onsubmit="return confirm('삭제하시겠습니까?');">
                             <input type="hidden" name="_method" value="delete"/>
                             <input type="hidden" th:name="articleId" th:value="${articleDetailDto.Id}"/>
