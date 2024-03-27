@@ -30,13 +30,13 @@
                         th:onclick="|location.href='@{/article/edit/{id}(id=${articleDetailDto.id})}'|" type="button">수정</button>
             </div>
         </div>
-        <div class="card-footer" th:if="${session.loginMember != null}">
+        <div class="card-footer">
             <div th:each="comment: ${commentListDtos}">
                 <p><strong>작성자: </strong><span th:text="${comment.writer}"></span></p>
                 <p><strong>내용: </strong><span th:text="${comment.contents}"></span></p>
                 <div class="border-bottom my-3"></div>
             </div>
-            <form th:action="@{/comment/write}" th:object="${commentDto}" method="post">
+            <form th:action="@{/comment/write}" th:if="${session.loginMember != null}" th:object="${commentDto}" method="post">
                 <div class="form-group">
                     <input type="hidden" id="articleId" name="articleId" th:value="${articleDetailDto.Id}" />
                 </div>
