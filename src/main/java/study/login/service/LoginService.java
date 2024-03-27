@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import study.login.domain.Member;
 import study.login.dto.MemberDto;
+import study.login.exception.DuplicateUserException;
+import study.login.exception.InvalidLoginException;
+import study.login.exception.UserNotFoundException;
 import study.login.repository.MemberRepository;
 
 import java.util.NoSuchElementException;
@@ -18,14 +21,14 @@ public class LoginService {
 
     public MemberDto login(String userId, String password) {
 
-        Member byUserId = memberRepository
+        Member member = memberRepository
                 .findByUserId(userId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(UserNotFoundException::new);
 
-        if (loginCheck(password, byUserId)) {
-            return new MemberDto(byUserId);
+        if (loginCheck(password, member)) {
+            return new MemberDto(member);
         } else{
-            throw new IllegalArgumentException(" ID / PASSWORD 불일치");
+            throw new InvalidLoginException(" ID / PASSWORD 불일치");
         }
     }
 

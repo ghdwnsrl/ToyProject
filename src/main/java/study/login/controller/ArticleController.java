@@ -56,14 +56,7 @@ public class ArticleController {
 
         boolean isOwner = articleService.isOwner(article,memberDto);
 
-        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
-                .title(article.getTitle())
-                .views(article.getViews())
-                .writer(article.getMember().getNickname())
-                .writerId(article.getMember().getId())
-                .contents(article.getContents())
-                .id(article.getId())
-                .build();
+        ArticleDetailDto articleDetailDto = new ArticleDetailDto(article);
 
         List<CommentListDto> commentListDtos = commentService.requestCommentList(articleId);
         log.info("commentListDtos ={}", commentListDtos);
@@ -110,13 +103,7 @@ public class ArticleController {
     public String editForm(@PathVariable(name = "articleId") Long articleId, Model model) {
         Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
 
-        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
-                .id(article.getId())
-                .title(article.getTitle())
-                .contents(article.getContents())
-                .writer(article.getMember().getNickname())
-                .views(article.getViews())
-                .build();
+        ArticleDetailDto articleDetailDto = new ArticleDetailDto(article);
 
         model.addAttribute("articleDetailDto", articleDetailDto);
 

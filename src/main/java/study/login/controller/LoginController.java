@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import study.login.dto.LoginFormDto;
 import study.login.dto.MemberDto;
+import study.login.exception.InvalidLoginException;
+import study.login.exception.UserNotFoundException;
 import study.login.service.ArticleService;
 import study.login.service.LoginService;
 import study.login.session.SessionConst;
@@ -25,7 +27,6 @@ import java.util.NoSuchElementException;
 public class LoginController {
 
     private final LoginService loginService;
-    private final ArticleService articleService;
 
     @GetMapping("/login")
     public String login(Model model, LoginFormDto loginFormDto) {
@@ -43,10 +44,10 @@ public class LoginController {
 
         try {
             loginUser = loginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
-        } catch (NoSuchElementException e) {
-            model.addAttribute("loginFail", "존재하지 않는 회원입니다.");
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("loginFail", "아이디 / 비밀번호를 확인하세요.");
+        } catch (UserNotFoundException e) {
+            bindingResult.reject("login.noUser");
+        } catch (InvalidLoginException e) {
+            bindingResult.reject("login.noMatch");
         }
 
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.login.domain.Member;
+import study.login.exception.UserNotFoundException;
 import study.login.repository.MemberRepository;
 
 import java.util.NoSuchElementException;
@@ -25,7 +26,7 @@ public class MemberService {
     }
 
     public Member findMember(String userId) {
-        return memberRepository.findByUserId(userId).orElseThrow(NoSuchElementException::new);
+        return memberRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
     }
 
     public Optional<Member> findMemberId(Long userId) {

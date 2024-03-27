@@ -23,10 +23,11 @@
                     <div class="card">
                         <div class="card-body p-5">
                             <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
-                            <div th:if="${loginFail}" class="fieldError">
-                                <p th:text="${loginFail}">글로벌 오류 메시지</p>
-                            </div>
                             <form method="POST" th:action="@{/login}" th:object = "${loginFormDto}" class="needs-validation" novalidate="" autocomplete="off">
+                                <div th:if="${#fields.hasGlobalErrors()}">
+                                    <p class="fieldError" th:each="err : ${#fields.globalErrors()}"
+                                       th:text="${err}">글로벌 오류 메시지</p>
+                                </div>
                                 <input type="hidden" th:name="redirectURL" th:value="${redirectURL}" />
                                 <div class="mb-3">
                                     <label class="mb-2 text-muted" for="userId">ID</label>

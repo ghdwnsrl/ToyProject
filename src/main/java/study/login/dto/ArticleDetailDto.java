@@ -3,6 +3,7 @@ package study.login.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import study.login.domain.Article;
 
 @Data
 @ToString
@@ -24,6 +25,16 @@ public class ArticleDetailDto {
         this.contents = contents;
         this.views = views;
     }
+
+    public ArticleDetailDto(Article article) {
+        this.id = article.getId();
+        this.title = article.getTitle();
+        this.writer = article.getMember().getNickname();
+        this.writerId = article.getMember().getId();
+        this.contents = article.getContents();
+        this.views = article.getViews();
+    }
+
 
     public boolean isOwner(Long currentUserId) {
         return ( writerId == currentUserId);

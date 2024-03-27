@@ -14,6 +14,7 @@ import study.login.dto.ArticleDetailDto;
 import study.login.dto.ArticleDto;
 import study.login.dto.ArticleWriteForm;
 import study.login.dto.MemberDto;
+import study.login.exception.UserNotFoundException;
 import study.login.repository.ArticleRepository;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class ArticleService {
     @Transactional
     public void update(ArticleDetailDto articleDetailDto) {
 
-        Article article = articleRepository.findById(articleDetailDto.getId()).orElseThrow(NoSuchElementException::new);
+        Article article = articleRepository.findById(articleDetailDto.getId()).orElseThrow(UserNotFoundException::new);
 
         article.articleUpdate(articleDetailDto.getTitle(),articleDetailDto.getContents());
     }
