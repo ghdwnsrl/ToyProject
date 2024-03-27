@@ -18,7 +18,9 @@ public class MemberService {
 
     public Member join(Member member) {
 
-        if (this.findMember(member.getUserId()) == null ) {
+        try {
+            this.findMember(member.getUserId());
+        } catch (UserNotFoundException e) {
             return memberRepository.save(member);
         }
 
@@ -37,4 +39,5 @@ public class MemberService {
     public void saveUser(Member member) {
         memberRepository.save(member);
     }
+
 }

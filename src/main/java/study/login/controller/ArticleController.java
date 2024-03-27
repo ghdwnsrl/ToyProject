@@ -70,6 +70,9 @@ public class ArticleController {
         return "readArticleForm";
     }
 
+    /**
+     * 댓글 생성 후, redirect인지 check
+     */
     private void checkFromComment(Model model, Article article) {
 
         Object obj = model.getAttribute("fromComment");
