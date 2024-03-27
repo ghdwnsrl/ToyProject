@@ -29,6 +29,7 @@
 
 [2024.03.21] Article Delete 관련 - DeleteById(Long id) VS Delete(T Entity) : https://alluring-timpani-4cb.notion.site/Toy-Project-Delete-VS-DeleteById-e45744e0b4ea44ed9c3adb80bdb9d514?pvs=4
 
+[2024.03.22] 댓글 작성 시, 조회수 증가 버그 수정 : https://alluring-timpani-4cb.notion.site/Toy-Project-cefea28ec60c4f97bc735ead66207bb1?pvs=4
 ## 시연 영상 
 
 
