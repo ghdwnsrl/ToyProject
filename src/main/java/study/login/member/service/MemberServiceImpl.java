@@ -1,5 +1,6 @@
 package study.login.member.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import study.login.member.domain.MemberCreate;
 import study.login.member.service.port.MemberRepository;
 
 @RequiredArgsConstructor
+@Builder
 @Service
 public class MemberServiceImpl implements MemberService {
 
