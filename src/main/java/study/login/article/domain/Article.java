@@ -33,8 +33,7 @@ public class Article extends BaseEntity {
         this.contents = contents;
     }
 
-    public Integer increaseViews(){
+    public void increaseViews(){
         this.views ++;
-        return this.views;
     }
 }
