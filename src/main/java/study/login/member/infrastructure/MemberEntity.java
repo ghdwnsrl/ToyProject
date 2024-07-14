@@ -1,9 +1,6 @@
 package study.login.member.infrastructure;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +9,9 @@ import study.login.common.BaseEntity;
 import study.login.member.domain.Member;
 
 @Entity
-@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "member")
 public class MemberEntity extends BaseEntity {
 
     @Id @GeneratedValue

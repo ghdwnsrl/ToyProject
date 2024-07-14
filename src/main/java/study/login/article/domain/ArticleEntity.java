@@ -10,6 +10,7 @@ import study.login.member.infrastructure.MemberEntity;
 
 @Entity
 @Getter
+@Table(name = "article")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArticleEntity extends BaseEntity {
     @Id
