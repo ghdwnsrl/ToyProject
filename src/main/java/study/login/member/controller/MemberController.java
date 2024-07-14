@@ -32,13 +32,9 @@ public class MemberController {
     @PostMapping("/join")
     public String join(@ModelAttribute("memberDto") @Validated MemberCreate memberCreate, RedirectAttributes redirectAttributes) {
 
-        /**
-         * 이미 가입된 회원인 경우, 알림 메시지 띄우기
-         */
+
         Member joinedMember = memberServiceImpl.join(memberCreate);
-        /**
-         *  실패한 경우,
-         */
+
         if (joinedMember == null) {
             redirectAttributes.addAttribute("status" , false);
             return "redirect:/member/join";
