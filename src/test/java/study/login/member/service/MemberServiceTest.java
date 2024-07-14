@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import study.login.common.exception.DuplicateUserException;
 import study.login.common.exception.UserNotFoundException;
 import study.login.member.controller.port.MemberService;
 import study.login.member.domain.Member;
@@ -22,6 +23,28 @@ public class MemberServiceTest {
         memberService = MemberServiceImpl.builder()
                 .memberRepository(new FakeMemberRepository())
                 .build();
+    }
+
+    @Test
+    void 신규회원은_기존_회원의_아이디와_중복될_수_없다() {
+        // given
+        MemberCreate memberCreate = MemberCreate.builder()
+                .userId("hong")
+                .password("pw111")
+                .nickname("hongs")
+                .build();
+
+        MemberCreate memberCreate2 = MemberCreate.builder()
+                .userId("hong")
+                .password("pw112")
+                .nickname("hongs2")
+                .build();
+
+        Member member = memberService.join(memberCreate);
+        //when
+        // then
+        Assertions.assertThatThrownBy(()->memberService.join(memberCreate2))
+                .isInstanceOf(DuplicateUserException.class);
     }
 
     @Test
