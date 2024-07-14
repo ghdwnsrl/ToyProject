@@ -1,19 +1,23 @@
 package study.login.common.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import study.login.common.controller.port.LoginService;
 import study.login.common.exception.InvalidLoginException;
 import study.login.common.exception.UserNotFoundException;
 import study.login.member.domain.LoginMember;
 import study.login.member.domain.Member;
-import study.login.member.domain.MemberCreate;
 import study.login.member.service.port.MemberRepository;
 
-@Service
-@RequiredArgsConstructor
+
+
 @Slf4j
-public class LoginService {
+@Service
+@Builder
+@RequiredArgsConstructor
+public class LoginServiceImpl implements LoginService {
 
     private final MemberRepository memberRepository;
 
@@ -33,7 +37,7 @@ public class LoginService {
         }
     }
 
-    private static boolean loginCheck(String password, Member byUserId) {
+    private boolean loginCheck(String password, Member byUserId) {
         return byUserId.getPassword().equals(password);
     }
 }

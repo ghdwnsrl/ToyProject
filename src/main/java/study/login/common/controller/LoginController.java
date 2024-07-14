@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import study.login.common.dto.LoginFormDto;
 import study.login.common.exception.InvalidLoginException;
 import study.login.common.exception.UserNotFoundException;
-import study.login.common.service.LoginService;
+import study.login.common.service.LoginServiceImpl;
 import study.login.member.domain.LoginMember;
-import study.login.member.domain.MemberCreate;
 import study.login.session.SessionConst;
 
 @Slf4j
@@ -26,7 +25,7 @@ import study.login.session.SessionConst;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final LoginService loginService;
+    private final LoginServiceImpl loginService;
 
     @GetMapping("/login")
     public String login(Model model, LoginFormDto loginFormDto) {
