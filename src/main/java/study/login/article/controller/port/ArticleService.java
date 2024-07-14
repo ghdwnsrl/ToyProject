@@ -5,25 +5,22 @@ import study.login.article.domain.Article;
 import study.login.article.domain.ArticleDetailDto;
 import study.login.article.domain.ArticleDto;
 import study.login.article.domain.ArticleWriteForm;
+import study.login.member.domain.LoginMember;
 import study.login.member.domain.Member;
-import study.login.member.domain.MemberCreate;
 
+import java.util.Map;
 import java.util.Optional;
 
 public interface ArticleService {
     Page<ArticleDto> findLists(int page);
 
-    void write(ArticleWriteForm articleWriteForm, Member member);
+    Article write(ArticleWriteForm articleWriteForm, Member member);
 
-    void write(Article article);
+    Optional<Article> findById(Long articleId);
 
-    Optional<Article> findByArticleId(Long articleId);
+    void deleteById(Long articleId);
 
-    void deleteArticle(Long articleId);
+    Article update(ArticleDetailDto articleDetailDto);
 
-    void update(ArticleDetailDto articleDetailDto);
-
-    void increaseArticleViews(Article article);
-
-    boolean isOwner(Article article, MemberCreate memberCreate);
+    Map<String, Object> read(Long articleId, LoginMember loginMember, Boolean fromComment);
 }

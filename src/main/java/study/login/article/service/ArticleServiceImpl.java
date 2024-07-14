@@ -1,5 +1,6 @@
 package study.login.article.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -16,19 +17,42 @@ import study.login.article.domain.ArticleWriteForm;
 import study.login.article.service.port.ArticleRepository;
 import study.login.common.exception.UserNotFoundException;
 import study.login.member.controller.port.MemberService;
+import study.login.member.domain.LoginMember;
 import study.login.member.domain.Member;
 import study.login.member.domain.MemberCreate;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
+@Builder
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final MemberService memberService;
+
+
+    @Override
+    public Map<String, Object> read(Long articleId, LoginMember loginMember, Boolean fromComment) {
+
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(NoSuchElementException::new);
+
+        if (!fromComment){
+            article.increaseViews();
+            article = articleRepository.save(article);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+
+        boolean owner = isOwner(article.getMember().getUserId(), loginMember);
+
+        map.put("article", article);
+        map.put("isOwner", owner);
+
+        return map;
+    }
 
     @Transactional(readOnly = true)
     public Page<ArticleDto> findLists(int page) {
@@ -36,8 +60,6 @@ public class ArticleServiceImpl implements ArticleService {
         ArrayList<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("id"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-
-        log.info(" here .. ");
 
         return articleRepository.findAll(pageable).map(m -> new ArticleDto(
                 m.getId(),
@@ -48,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Transactional
-    public void write(ArticleWriteForm articleWriteForm , Member member) {
+    public Article write(ArticleWriteForm articleWriteForm , Member member) {
 
         Article article = Article.builder()
                 .title(articleWriteForm.getTitle())
@@ -57,27 +79,21 @@ public class ArticleServiceImpl implements ArticleService {
                 .views(0)
                 .build();
 
-        articleRepository.save(article);
+        return articleRepository.save(article);
     }
-
-    @Transactional
-    public void write(Article article){
-        articleRepository.save(article);
-    }
-
 
     @Transactional(readOnly = true)
-    public Optional<Article> findByArticleId(Long articleId) {
+    public Optional<Article> findById(Long articleId) {
         return articleRepository.findById(articleId);
     }
 
     @Transactional
-    public void deleteArticle(Long articleId) {
+    public void deleteById(Long articleId) {
         articleRepository.deleteById(articleId);
     }
 
     @Transactional
-    public void update(ArticleDetailDto articleDetailDto) {
+    public Article update(ArticleDetailDto articleDetailDto) {
 
         Article article = articleRepository.findById(articleDetailDto.getId()).orElseThrow(UserNotFoundException::new);
 
@@ -86,21 +102,14 @@ public class ArticleServiceImpl implements ArticleService {
                 articleDetailDto.getContents()
         );
 
-        articleRepository.save(article);
+        return articleRepository.save(article);
     }
 
-    @Transactional
-    public void increaseArticleViews(Article article) {
-        article.increaseViews();
-    }
-
-    public boolean isOwner(Article article, MemberCreate memberCreate) {
-
-        Member member = memberService.findByUserId(memberCreate.getUserId());
-
-        if (memberCreate == null)
-            return false;
-
-        return (article.getMember().getId() == member.getId());
+    private boolean isOwner(String articleUserId, LoginMember loginMember) {
+        boolean owner = false;
+        if (loginMember != null) {
+            owner = articleUserId.equals(loginMember.getUserId());
+        }
+        return owner;
     }
 }
