@@ -39,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(NoSuchElementException::new);
 
-        if (!fromComment){
+        if (fromComment == null || !fromComment){
             article.increaseViews();
             article = articleRepository.save(article);
         }
