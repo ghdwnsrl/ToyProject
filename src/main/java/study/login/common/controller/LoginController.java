@@ -17,6 +17,7 @@ import study.login.common.dto.LoginFormDto;
 import study.login.common.exception.InvalidLoginException;
 import study.login.common.exception.UserNotFoundException;
 import study.login.common.service.LoginService;
+import study.login.member.domain.LoginMember;
 import study.login.member.domain.MemberCreate;
 import study.login.session.SessionConst;
 
@@ -40,11 +41,10 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
-
-        MemberCreate loginUser = null;
+        LoginMember loginMember = null;
 
         try {
-            loginUser = loginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
+            loginMember = loginService.login(loginFormDto.getUserId(), loginFormDto.getPassword());
         } catch (UserNotFoundException e) {
             bindingResult.reject("login.noUser");
         } catch (InvalidLoginException e) {
@@ -53,13 +53,13 @@ public class LoginController {
 
 
         // 로그인 실패
-        if(loginUser == null)  {
+        if(loginMember == null)  {
             return "login";
         }
 
         // 로그인 성공
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER , loginUser);
+        session.setAttribute(SessionConst.LOGIN_MEMBER , loginMember);
 
         log.info("[Post] login - redirectURL {}", redirectURL);
         // redirect 요청 처리

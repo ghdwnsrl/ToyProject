@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import study.login.common.exception.InvalidLoginException;
 import study.login.common.exception.UserNotFoundException;
+import study.login.member.domain.LoginMember;
 import study.login.member.domain.Member;
 import study.login.member.domain.MemberCreate;
 import study.login.member.service.port.MemberRepository;
@@ -16,16 +17,15 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
 
-    public MemberCreate login(String userId, String password) {
+    public LoginMember login(String userId, String password) {
 
         Member member = memberRepository
                 .findByUserId(userId)
                 .orElseThrow(UserNotFoundException::new);
 
         if (loginCheck(password, member)) {
-            return MemberCreate.builder()
+            return LoginMember.builder()
                     .userId(member.getUserId())
-                    .password(member.getPassword())
                     .nickname(member.getNickname())
                     .build();
         } else{

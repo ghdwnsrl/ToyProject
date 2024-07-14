@@ -12,13 +12,13 @@ import study.login.article.domain.ArticleWriteForm;
 import study.login.comment.controller.port.CommentService;
 import study.login.comment.domain.CommentDto;
 import study.login.comment.domain.CommentListDto;
-import study.login.comment.service.CommentServiceImpl;
 import study.login.member.controller.port.MemberService;
+import study.login.member.domain.LoginMember;
 import study.login.member.domain.Member;
-import study.login.member.domain.MemberCreate;
 import study.login.session.SessionConst;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -31,19 +31,19 @@ public class ArticleController {
     private final CommentService commentService;
 
     @GetMapping("/write")
-    public String write(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberCreate memberCreate, Model model) {
+    public String write(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, Model model) {
 
         model.addAttribute("articleWriteForm" , new ArticleWriteForm());
-        model.addAttribute("loginMember", memberCreate);
+        model.addAttribute("loginMember", loginMember);
 
 
         return "writeArticleForm";
     }
 
     @PostMapping("/write")
-    public String receiveArticle(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberCreate memberCreate, @ModelAttribute ArticleWriteForm articleWriteForm) {
+    public String receiveArticle(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember, @ModelAttribute ArticleWriteForm articleWriteForm) {
 
-        Member findedMember = memberService.findByUserId(memberCreate.getUserId());
+        Member findedMember = memberService.findByUserId(loginMember.getUserId());
         log.info("member.getId() = {}" , findedMember.getUserId() );
         articleService.write(articleWriteForm , findedMember);
 
@@ -52,22 +52,19 @@ public class ArticleController {
 
     @GetMapping("/article/read/{articleId}")
     public String readArticle(@PathVariable(name = "articleId") Long articleId,
-                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MemberCreate memberCreate,
+                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginMember loginMember,
                               Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
+        Boolean fromComment = (Boolean) model.getAttribute("fromComment");
 
-        checkFromComment(model, article);
+        Map<String, Object> readResult = articleService.read(articleId, loginMember, fromComment);
 
-        boolean isOwner = articleService.isOwner(article, memberCreate);
-
-        ArticleDetailDto articleDetailDto = new ArticleDetailDto(article);
+        ArticleDetailDto articleDetailDto = new ArticleDetailDto((Article) readResult.get("article"));
 
         List<CommentListDto> commentListDtos = commentService.requestCommentList(articleId);
-        log.info("commentListDtos ={}", commentListDtos);
 
         model.addAttribute("articleDetailDto", articleDetailDto);
-        model.addAttribute("isOwner", isOwner);
+        model.addAttribute("isOwner", readResult.get("isOwner"));
         model.addAttribute("page", page);
         model.addAttribute("commentDto", new CommentDto());
         model.addAttribute("commentListDtos", commentListDtos);
@@ -75,25 +72,11 @@ public class ArticleController {
         return "readArticleForm";
     }
 
-    /**
-     * 댓글 생성 후, redirect인지 check
-     */
-    private void checkFromComment(Model model, Article article) {
-
-        Object obj = model.getAttribute("fromComment");
-        Boolean fromComment = (obj != null) ? (Boolean) obj : null;
-
-        if ( fromComment == null || !fromComment.booleanValue() ){
-            log.info("increase article view 실행 ");
-            articleService.increaseArticleViews(article);
-        }
-    }
-
     @DeleteMapping("/article/delete/{articleId}")
     public String deleteArticle(@PathVariable(name = "articleId") Long articleId ) {
 
         commentService.deleteByArticleId(articleId);
-        articleService.deleteArticle(articleId);
+        articleService.deleteById(articleId);
 
         return "redirect:/";
     }
@@ -109,7 +92,7 @@ public class ArticleController {
 
     @GetMapping("/article/edit/{articleId}")
     public String editForm(@PathVariable(name = "articleId") Long articleId, Model model) {
-        Article article = articleService.findByArticleId(articleId).orElseThrow(NoSuchElementException::new);
+        Article article = articleService.findById(articleId).orElseThrow(NoSuchElementException::new);
 
         ArticleDetailDto articleDetailDto = new ArticleDetailDto(article);
 
