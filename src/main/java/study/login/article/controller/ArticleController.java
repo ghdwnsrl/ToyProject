@@ -59,7 +59,16 @@ public class ArticleController {
 
         Map<String, Object> readResult = articleService.read(articleId, loginMember, fromComment);
 
-        ArticleDetailDto articleDetailDto = new ArticleDetailDto((Article) readResult.get("article"));
+        Article article = (Article) readResult.get("article");
+
+        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
+                .id(article.getId())
+                .contents(article.getContents())
+                .title(article.getTitle())
+                .views(article.getViews())
+                .writer(article.getMember().getNickname())
+                .writerId(article.getMember().getId())
+                .build();
 
         List<CommentListDto> commentListDtos = commentService.requestCommentList(articleId);
 
@@ -94,7 +103,14 @@ public class ArticleController {
     public String editForm(@PathVariable(name = "articleId") Long articleId, Model model) {
         Article article = articleService.findById(articleId).orElseThrow(NoSuchElementException::new);
 
-        ArticleDetailDto articleDetailDto = new ArticleDetailDto(article);
+        ArticleDetailDto articleDetailDto = ArticleDetailDto.builder()
+                .id(article.getId())
+                .contents(article.getContents())
+                .title(article.getTitle())
+                .views(article.getViews())
+                .writer(article.getMember().getNickname())
+                .writerId(article.getMember().getId())
+                .build();
 
         model.addAttribute("articleDetailDto", articleDetailDto);
 

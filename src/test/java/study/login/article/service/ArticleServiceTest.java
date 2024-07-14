@@ -57,9 +57,9 @@ public class ArticleServiceTest {
     }
 
     @Test
-    public void findLists로_Page를_받을_수_있다() throws Exception {
+    void findLists로_Page를_받을_수_있다() throws Exception {
 
-        //given
+        // given
         Member member = Member.builder()
                 .userId("hong")
                 .password("pw111")
@@ -68,8 +68,10 @@ public class ArticleServiceTest {
 
         createInitialData(member);
 
-        //when
+        // when
         Page<ArticleDto> lists = articleService.findLists(0);
+
+        // then
         assertThat(lists.getNumberOfElements()).isEqualTo(10);
         assertThat(lists.getTotalElements()).isEqualTo(30);
         assertThat(lists.getTotalPages()).isEqualTo(3);

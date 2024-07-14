@@ -1,16 +1,17 @@
 package study.login.article.infrastructure;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import study.login.article.domain.Article;
-import study.login.article.domain.ArticleEntity;
 import study.login.article.service.port.ArticleRepository;
 
 import java.util.Optional;
 
 @Repository
+@Builder
 @RequiredArgsConstructor
 public class ArticleRepositoryImpl implements ArticleRepository {
 

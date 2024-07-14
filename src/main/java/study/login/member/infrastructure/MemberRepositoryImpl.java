@@ -1,5 +1,6 @@
 package study.login.member.infrastructure;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import study.login.member.domain.Member;
@@ -7,8 +8,9 @@ import study.login.member.service.port.MemberRepository;
 
 import java.util.Optional;
 
-@Repository
+@Builder
 @RequiredArgsConstructor
+@Repository
 public class MemberRepositoryImpl implements MemberRepository{
 
     private final MemberJpaRepository memberJpaRepository;

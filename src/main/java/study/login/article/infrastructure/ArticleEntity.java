@@ -1,10 +1,11 @@
-package study.login.article.domain;
+package study.login.article.infrastructure;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import study.login.article.domain.Article;
 import study.login.common.BaseEntity;
 import study.login.member.infrastructure.MemberEntity;
 

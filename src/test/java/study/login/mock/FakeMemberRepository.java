@@ -1,24 +1,23 @@
 package study.login.mock;
 
+import study.login.article.domain.Article;
 import study.login.member.domain.Member;
 import study.login.member.service.port.MemberRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class FakeMemberRepository implements MemberRepository {
 
-    private Long sequence = 0L;
-    private final List<Member> data = new ArrayList<>();
+    private final List<Member> data = Collections.synchronizedList(new ArrayList<>());
+    private final AtomicLong sequence = new AtomicLong(0);
 
     @Override
     public Member save(Member member) {
 
         if (member.getId() == null || member.getId() == 0) {
             Member newMember = Member.builder()
-                    .id(sequence++)
+                    .id(sequence.incrementAndGet())
                     .nickname(member.getNickname())
                     .password(member.getPassword())
                     .userId(member.getUserId())

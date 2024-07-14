@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import study.login.article.domain.ArticleEntity;
+import study.login.article.infrastructure.ArticleEntity;
 import study.login.comment.domain.Comment;
 import study.login.common.BaseEntity;
 
