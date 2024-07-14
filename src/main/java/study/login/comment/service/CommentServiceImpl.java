@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public void write(CommentDto commentDto) {
-        Article article = articleService.findByArticleId(commentDto.getArticleId()).orElseThrow(NoSuchElementException::new);
+        Article article = articleService.findById(commentDto.getArticleId()).orElseThrow(NoSuchElementException::new);
 
         Comment createdComment = Comment.builder()
                 .article(article)
