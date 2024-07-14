@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import study.login.common.exception.DuplicateUserException;
 import study.login.common.exception.UserNotFoundException;
 import study.login.member.controller.port.MemberService;
 import study.login.member.domain.Member;
@@ -19,6 +20,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public Member join(MemberCreate memberCreate) {
+
+        if (memberRepository.findByUserId(memberCreate.getUserId()).isPresent())
+            throw new DuplicateUserException("중복된 회원입니다.");
 
         Member member = Member.builder()
                 .userId(memberCreate.getUserId())
