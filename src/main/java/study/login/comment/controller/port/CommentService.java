@@ -14,7 +14,6 @@ public interface CommentService {
 
     void deleteByArticleId(Long articleId);
 
-    void deleteById(Long commentId);
-
+    void deleteById(Long commentId, String nickname);
 
 }
