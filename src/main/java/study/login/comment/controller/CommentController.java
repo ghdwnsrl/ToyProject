@@ -31,7 +31,7 @@ public class CommentController {
         log.info("commentId = {}",commentId);
         log.info("articleId = {}",articleId);
 
-        commentService.removeComment(commentId);
+        commentService.deleteById(commentId);
 
         rttr.addFlashAttribute("fromComment", true);
         return "redirect:/article/read/" + articleId;
