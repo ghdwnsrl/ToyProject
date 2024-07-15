@@ -8,6 +8,7 @@ import study.login.comment.domain.Comment;
 import study.login.comment.service.port.CommentRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,6 +29,11 @@ public class CommentRepositoryImpl implements CommentRepository {
         return commentJpaRepository.findByArticleEntityId(id)
                 .stream().map(CommentEntity::toModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Comment> findById(Long id) {
+        return commentJpaRepository.findById(id).map(CommentEntity::toModel);
     }
 
     @Override
