@@ -19,12 +19,12 @@ import static lombok.AccessLevel.PROTECTED;
 public class CommentEntity extends BaseEntity {
 
     @Id
-    @Column(name = "comment_id") @GeneratedValue
+    @Column(name = "comment_id")
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private ArticleEntity articleEntity;
 
     private String nickname;

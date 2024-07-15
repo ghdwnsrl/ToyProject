@@ -16,12 +16,9 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     private final CommentJpaRepository commentJpaRepository;
 
-    // todo : article id -> 삭제 쿼리
     @Override
-    public void deleteComments(Long articleId) {
-        log.info("delete comments 시작");
-
-        log.info("delete comments 끝");
+    public void deleteByArticleId(Long articleId) {
+        commentJpaRepository.deleteByArticleEntityId(articleId);
     }
 
     @Override

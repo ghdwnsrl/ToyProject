@@ -1,5 +1,6 @@
 package study.login.comment.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@Builder
 @RequiredArgsConstructor
 @Transactional
 public class CommentServiceImpl implements CommentService {
@@ -23,29 +25,29 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final ArticleService articleService;
 
-    public List<CommentListDto> requestCommentList(Long articleId) {
+    public List<CommentListDto> findList(Long articleId) {
         return commentRepository.findByArticleId(articleId)
                 .stream().map(CommentListDto::new)
                 .collect(Collectors.toList());
     }
 
-    public void write(CommentDto commentDto) {
+    public Comment write(CommentDto commentDto) {
         Article article = articleService.findById(commentDto.getArticleId()).orElseThrow(NoSuchElementException::new);
 
-        Comment createdComment = Comment.builder()
+        Comment comment = Comment.builder()
                 .article(article)
                 .contents(commentDto.getContents())
                 .nickname(commentDto.getNickname())
                 .build();
 
-        commentRepository.save(createdComment);
+        return commentRepository.save(comment);
     }
 
     public void deleteByArticleId(Long articleId) {
-        commentRepository.deleteComments(articleId);
+        commentRepository.deleteByArticleId(articleId);
     }
 
-    public void removeComment(Long commentId) {
+    public void deleteById(Long commentId) {
         commentRepository.deleteById(commentId);
     }
 }

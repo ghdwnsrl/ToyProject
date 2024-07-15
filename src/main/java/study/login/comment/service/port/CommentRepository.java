@@ -5,7 +5,7 @@ import study.login.comment.domain.Comment;
 import java.util.List;
 
 public interface CommentRepository {
-    void deleteComments(Long articleId);
+    void deleteByArticleId(Long articleId);
 
     List<Comment> findByArticleId(Long id);
 
